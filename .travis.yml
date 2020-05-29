@@ -9,3 +9,16 @@ before_install:
 
 script:
   - docker run -e CI=true solomono10/dc-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-2"
+  app: "docker-compose-react"
+  env: "DockerComposeReact-env"
+  bucket_name: "elasticbeanstalk-eu-west-2-063041206115"
+  bucket_path: "docker-compose-react"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
