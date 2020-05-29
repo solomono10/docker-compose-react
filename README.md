@@ -66,3 +66,60 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+#### Docker
+
+# Build the Dockerfile.dev file
+
+$ docker build -f Dockerfile.dev .
+
+
+# Build the Dockerfile file
+
+$ docker build .
+
+# Run a container out of the image generated from the 'Dockerfile.dev' file
+
+$ docker build -f Dockerfile.dev .
+
+$ docker run -it -p 3000:3000 <image-name>
+
+# Run a container out of the image generated from the 'Dockerfile.dev' file with volumes
+$ docker run -it -p 3000:3000 -v /app/node_modules -v ${PWD}:/app <image-name>
+
+# Run services using docker-compose.yml
+
+$ docker-compose build
+$ docker-compose up
+
+
+## Run tests inside the create-react-app container
+
+# Build the web service
+$ docker-compose up --build
+
+# Get the container id
+$ docker ps
+
+# Run the tests inside the container using the override command
+$ docker exec -it <container-id> npm run test
+
+# Run a container from the image & override the startup command (["npm", "run", "start"])
+$ docker run -it <image-name> npm run test
+
+
+### Dockerfile
+When you build Dokerfile using...
+
+$ docker build .
+
+Remember that as nginx is a webserver, we do need to specify a port.
+You can run the container using...
+
+$ docker run -p 8080:80 <image-name>
+
+Where port 80 is the nginx server default port. We do a port-forwarding from 80 (inside the container) to 8000 (on localhost).
+
+Now browse to http://localhost:8080/

@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    build:
+      # Define context when using a cusom Dockerfile
+      context: . # path to the cusom Dockerfile directory
+      dockerfile: Dockerfile.dev # cusom Dockerfile name
+    environment:
+      - CI=true # Add this to fix a create-react-app bug
+    container_name: react_app
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - .:/app
+      - /app/node_modules
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - web
+    volumes:
+      - .:/app
+      - /app/node_modules
+    # Override the startup command in the Dockerfile.dev file
+    command: ["npm", "run", "test"]
+  
+
+

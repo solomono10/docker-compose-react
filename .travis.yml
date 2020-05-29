@@ -1,0 +1,11 @@
+language: generic
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t solomono10/dc-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true solomono10/dc-react npm run test -- --coverage
